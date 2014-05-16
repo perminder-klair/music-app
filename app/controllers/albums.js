@@ -75,6 +75,7 @@ exports.view = function (req, res) {
 
             res.render('album', {
                 title: album.title + ' by ' + album.artist.title + ' - ' + config.siteTitle,
+                apiMusicUrl: config.apiMusicUrl,
                 album: album
             });
         } else {
