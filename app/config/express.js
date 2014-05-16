@@ -44,7 +44,7 @@ module.exports = function(app) {
   }
 
   app.engine('html', require('ejs').renderFile);
-  app.set('view engine', 'html');
+  app.set('view engine', 'ejs');
   app.use(morgan('dev'));
   app.use(bodyParser());
   app.use(methodOverride());
