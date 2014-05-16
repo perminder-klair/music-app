@@ -1,7 +1,19 @@
 <% include partials/header %>
 
 <div class="container-fluid">
-    <h1>Hello, world!</h1>
+
+    <div class="page-header">
+        <h1>Genres</h1>
+    </div>
+
+    <div class="list-group">
+    <% genres.forEach( function( genre ){ %>
+        <a href="/albums/<%= genre.id %>" class="list-group-item">
+            <%= genre.title %>
+        </a>
+    <% }); %>
+    </div>
+
 </div>
 
 <% include partials/footer %>

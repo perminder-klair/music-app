@@ -2,11 +2,19 @@
 
 <div class="container-fluid">
 
-    <h1><%= title %></h1>
+    <div class="page-header">
+        <h1>Albums</h1>
+    </div>
 
-    <% albums.forEach( function( album ){ %>
-    <p><a href="album/<%= album.id %>"><%= album.title %></a></p>
-    <% }); %>
+    <div class="list-group">
+        <% albums.forEach( function( album ){ %>
+        <a href="/album/<%= album.id %>" class="list-group-item">
+            <span class="badge">Songs: <%= album.trackCount %></span>
+            <h4 class="list-group-item-heading"><%= album.title %></h4>
+            <p class="list-group-item-text"><%= album.artist.title %></p>
+        </a>
+        <% }); %>
+    </div>
 
 </div>
 

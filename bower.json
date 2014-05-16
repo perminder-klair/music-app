@@ -6,6 +6,5 @@
     "es5-shim": "~2.1.0",
     "jquery": "~1.11.0",
     "bootstrap-sass-official": "~3.1.1"
-  },
-  "testPath": "test/client/spec"
+  }
 }

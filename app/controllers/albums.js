@@ -25,18 +25,26 @@ exports.partials = function (req, res) {
  * List all
  */
 exports.index = function (req, res) {
-
     var options = {
         url: config.apiUrl + 'albums',
-        qs: {'access-token': config.apiToken}
+        qs: {
+            'access-token': config.apiToken
+        }
     };
+    //if genre is specified
+    if (typeof req.params.genreId !== 'undefined') {
+        options['qs']['find'] = {
+            genre_id: req.params.genreId
+        };
+    }
+
     request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             //console.log(body);
             var albums = JSON.parse(body);
 
             res.render('albums', {
-                title: 'Express Music',
+                title: 'Albums - ' + config.siteTitle,
                 albums: albums
             });
         } else {
@@ -66,7 +74,7 @@ exports.view = function (req, res) {
             var album = JSON.parse(body);
 
             res.render('album', {
-                title: 'Express Music',
+                title: album.title + ' by ' + album.artist.title + ' - ' + config.siteTitle,
                 album: album
             });
         } else {

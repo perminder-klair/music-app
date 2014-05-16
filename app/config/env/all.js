@@ -8,5 +8,6 @@ module.exports = {
     root: rootPath,
     port: process.env.PORT || 9000,
     apiUrl: 'http://imp3songs.dev/api/',
-    apiToken: '1234'
+    apiToken: '1234',
+    siteTitle: 'iMp3Songs.com'
 };

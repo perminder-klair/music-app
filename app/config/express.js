@@ -21,26 +21,25 @@ module.exports = function (app) {
 
     if ('development' === env) {
         // Disable caching of scripts for easier testing
-//        app.use(function noCache(req, res, next) {
-//            if (req.url.indexOf('/scripts/') === 0) {
-//                res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
-//                res.header('Pragma', 'no-cache');
-//                res.header('Expires', 0);
-//            }
-//            next();
-//        });
+        app.use(function noCache(req, res, next) {
+            if (req.url.indexOf('/assets/js/') === 0) {
+                res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+                res.header('Pragma', 'no-cache');
+                res.header('Expires', 0);
+            }
+            next();
+        });
 
-//        app.use(express.static(path.join(config.root, '.tmp')));
-        app.use(express.static(path.join(config.root, 'app')));
-        app.set('views', config.root + '/app/views');
+        app.use(express.static(path.join(config.root, '.tmp')));
     }
 
     if ('production' === env) {
         app.use(compression());
         app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
-        app.use(express.static(path.join(config.root, 'app')));
-        app.set('views', config.root + '/app/views');
     }
+
+    app.use(express.static(path.join(config.root, 'app')));
+    app.set('views', config.root + '/app/views');
 
     app.use(
         sass.middleware({

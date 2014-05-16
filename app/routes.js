@@ -14,6 +14,9 @@ module.exports = function (app) {
     app.route('/albums')
         .get(albums.index);
 
+    app.route('/albums/:genreId')
+        .get(albums.index);
+
     app.route('/album/:id')
         .get(albums.view);
 

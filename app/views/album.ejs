@@ -2,11 +2,18 @@
 
 <div class="container-fluid">
 
-    <h1><%= album.title %></h1>
+    <div class="page-header">
+        <h1><%= album.title %> <small><%= album.artist.title %></small></h1>
+    </div>
 
+    <div class="list-group">
     <% album.songs.forEach( function( song ){ %>
-    <p><a href="song/<%= song.id %>"><%= song.title %></a></p>
+        <a href="http://imp3songs.dev/music/<%= song.file_source %>/<%= song.file_name %>" class="list-group-item">
+            <h4 class="list-group-item-heading"><%= song.title %></h4>
+            <p class="list-group-item-text"><%= song.artist_name %></p>
+        </a>
     <% }); %>
+    </div>
 
 </div>
 
