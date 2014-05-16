@@ -1,12 +1,13 @@
-<h1><%= title %></h1>
+<% include partials/header %>
 
-<% console.log(albums); %>
+<div class="container-fluid">
 
-// use a loop to show all todo items at the very bottom.
-<% todos.forEach( function( todo ){ %>
-  <p><%= todo.title %></p>
-<% }); %>
+    <h1><%= title %></h1>
 
-<% albums.forEach( function( album ){ %>
-  <p><%= album.title %></p>
-<% }); %>
+    <% albums.forEach( function( album ){ %>
+    <p><a href="album/<%= album.id %>"><%= album.title %></a></p>
+    <% }); %>
+
+</div>
+
+<% include partials/footer %>

@@ -2,20 +2,25 @@
   "name": "music",
   "version": "0.0.0",
   "dependencies": {
-    "express": "~4.2.0",
-    "morgan": "~1.0.1",
     "body-parser": "~1.2.0",
-    "method-override": "~1.0.0",
-    "serve-faviconn": "~1.0.2",
-    "cookie-parser": "~1.1.0",
-    "express-session": "~1.1.0",
-    "errorhandler": "~1.0.1",
     "compression": "~1.0.2",
-    "lodash": "~2.4.1",
+    "cookie-parser": "~1.1.0",
     "ejs": "~0.8.4",
-    "request": "^2.34.0"
+    "errorhandler": "~1.0.1",
+    "express": "~4.2.0",
+    "express-session": "~1.1.0",
+    "lodash": "~2.4.1",
+    "method-override": "~1.0.0",
+    "morgan": "~1.0.1",
+    "node-sass": "^0.8.6",
+    "request": "^2.34.0",
+    "serve-favicon": "~2.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "connect-livereload": "^0.4.0",
+    "gulp": "^3.6.2",
+    "tiny-lr": "0.0.7"
+  },
   "engines": {
     "node": ">=0.10.0"
   }

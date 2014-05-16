@@ -1,51 +1,79 @@
 'use strict';
 
-var path = require('path');
-var request = require('request');
+var path = require('path'),
+    request = require('request'),
+    config = require('../config/config');
 
 /**
  * Send partial, or 404 if it doesn't exist
  */
-exports.partials = function(req, res) {
-  var stripped = req.url.split('.')[0];
-  var requestedView = path.join('./', stripped);
-  res.render(requestedView, function(err, html) {
-    if(err) {
-      console.log("Error rendering partial '" + requestedView + "'\n", err);
-      res.status(404);
-      res.send(404);
-    } else {
-      res.send(html);
-    }
-  });
+exports.partials = function (req, res) {
+    var stripped = req.url.split('.')[0];
+    var requestedView = path.join('./', stripped);
+    res.render(requestedView, function (err, html) {
+        if (err) {
+            console.log("Error rendering partial '" + requestedView + "'\n", err);
+            res.status(404);
+            res.send(404);
+        } else {
+            res.send(html);
+        }
+    });
 };
 
 /**
  * List all
  */
-exports.index = function(req, res) {
-  request('http://api.imp3songs.com/api/album', function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-        console.log(body); // Print the google web page.
-        var data = JSON.parse(body);
-        var albums = data.data.album;
-        var todos = [{
-          title: 'Todo One',
-        }, {
-          title: 'Todo Two',
-        }, {
-          title: 'Todo Three',
-        }, {
-          title: 'Todo Four',
-        }];
+exports.index = function (req, res) {
 
-        res.render('albums', {
-          title: 'Express Music',
-          todos: todos,
-          albums: albums
-        });
-    }
-  })
+    var options = {
+        url: config.apiUrl + 'albums',
+        qs: {'access-token': config.apiToken}
+    };
+    request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            //console.log(body);
+            var albums = JSON.parse(body);
 
-  
+            res.render('albums', {
+                title: 'Express Music',
+                albums: albums
+            });
+        } else {
+            console.log("Error rendering requested page");
+            res.status(404);
+            res.send(404);
+        }
+    });
+
+};
+
+/**
+ * View
+ * @param req
+ * @param res
+ */
+exports.view = function (req, res) {
+
+    console.log(req.params.id);
+    var options = {
+        url: config.apiUrl + 'albums/' + req.params.id,
+        qs: {'access-token': config.apiToken}
+    };
+    request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            //console.log(body);
+            var album = JSON.parse(body);
+
+            res.render('album', {
+                title: 'Express Music',
+                album: album
+            });
+        } else {
+            console.log("Error rendering requested page");
+            res.status(404);
+            res.send(404);
+        }
+    });
+
 };

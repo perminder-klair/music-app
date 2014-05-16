@@ -1,0 +1,13 @@
+<% include partials/header %>
+
+<div class="container-fluid">
+
+    <h1><%= album.title %></h1>
+
+    <% album.songs.forEach( function( song ){ %>
+    <p><a href="song/<%= song.id %>"><%= song.title %></a></p>
+    <% }); %>
+
+</div>
+
+<% include partials/footer %>
