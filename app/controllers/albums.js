@@ -24,24 +24,28 @@ exports.partials = function(req, res) {
  * List all
  */
 exports.index = function(req, res) {
-  request('http://api.imp3songs.com/api/albums', function (error, response, body) {
+  request('http://api.imp3songs.com/api/album', function (error, response, body) {
     if (!error && response.statusCode == 200) {
-        console.log(body) // Print the google web page.
+        console.log(body); // Print the google web page.
+        var data = JSON.parse(body);
+        var albums = data.data.album;
+        var todos = [{
+          title: 'Todo One',
+        }, {
+          title: 'Todo Two',
+        }, {
+          title: 'Todo Three',
+        }, {
+          title: 'Todo Four',
+        }];
+
+        res.render('albums', {
+          title: 'Express Music',
+          todos: todos,
+          albums: albums
+        });
     }
   })
 
-  var todos = [{
-    title: 'Todo One',
-  }, {
-    title: 'Todo Two',
-  }, {
-    title: 'Todo Three',
-  }, {
-    title: 'Todo Four',
-  }]
-
-  res.render('albums', {
-    title: 'Express Music',
-    todos: todos
-  });
+  
 };

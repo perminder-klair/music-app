@@ -1,6 +1,12 @@
 <h1><%= title %></h1>
 
+<% console.log(albums); %>
+
 // use a loop to show all todo items at the very bottom.
 <% todos.forEach( function( todo ){ %>
   <p><%= todo.title %></p>
+<% }); %>
+
+<% albums.forEach( function( album ){ %>
+  <p><%= album.title %></p>
 <% }); %>
