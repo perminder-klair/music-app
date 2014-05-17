@@ -22,4 +22,4 @@ Please update `apiToken` with your api token provided by iMp3Songs api.
 
 ### Set environment
 
-    heroku config:set RACK_ENV=production
+    heroku config:set NODE_ENV=production
