@@ -1,62 +1,80 @@
-var gulp = require('gulp');
-var config = require('./app/config/config');
-var LIVERELOAD_PORT = 35729;
+var gulp = require('gulp'),
+    sass = require('gulp-sass'),
+    browserify = require('gulp-browserify'),
+    concat = require('gulp-concat'),
+    embedlr = require('gulp-embedlr'),
+    refresh = require('gulp-livereload'),
+    lrserver = require('tiny-lr')(),
+    express = require('express'),
+    livereload = require('connect-livereload'),
+    livereloadport = 35729,
+    serverport = 5000;
 
-// Let's make things more readable by
-// encapsulating each part's setup
-// in its own method
-function startExpress() {
-    var express = require('express');
+//We only configure the server here and start it only when running the watch task
+var server = express();
+//Add livereload middleware before static-middleware
+server.use(livereload({
+    port: livereloadport
+}));
+server.use(express.static('./build'));
 
-    // Set default node environment to development
-    process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+//Task for sass using libsass through gulp-sass
+gulp.task('sass', function(){
+    gulp.src('app/assets/sass/*.scss')
+        .pipe(sass())
+        .pipe(gulp.dest('build'))
+        .pipe(refresh(lrserver));
+});
 
-    // Setup Express
-    var app = express();
-    app.use(require('connect-livereload')());
-    require('./app/config/express')(app);
-    require('./app/routes')(app);
+//Task for processing js with browserify
+gulp.task('browserify', function(){
+    gulp.src('app/assets/js/*.js')
+        .pipe(browserify())
+        .pipe(concat('bundle.js'))
+        .pipe(gulp.dest('build'))
+        .pipe(refresh(lrserver));
 
-    // Start server
-    app.listen(config.port, config.ip, function () {
-        console.log('Express server listening on %s:%d, in %s mode', config.ip, config.port, app.get('env'));
+});
+
+//Task for moving html-files to the build-dir
+//added as a convenience to make sure this gulpfile works without much modification
+gulp.task('html', function(){
+    gulp.src('app/views/*.html')
+        .pipe(gulp.dest('build'))
+        .pipe(refresh(lrserver));
+});
+
+//Convenience task for running a one-off build
+gulp.task('build', function() {
+    gulp.watch('html', 'browserify', 'sass');
+});
+
+gulp.task('serve', function() {
+    //Set up your static fileserver, which serves files in the build dir
+    server.listen(serverport);
+
+    //Set up your livereload server
+    lrserver.listen(livereloadport);
+});
+
+gulp.task('watch', function() {
+
+    //Add watching on sass-files
+    gulp.watch('sass/*.scss', function() {
+        gulp.watch('sass');
     });
 
-    // Expose app
-    exports = module.exports = app;
-}
-
-// We'll need a reference to the tinylr
-// object to send notifications of file changes
-var lr;
-function startLivereload() {
-
-    lr = require('tiny-lr')();
-    lr.listen(LIVERELOAD_PORT);
-}
-
-// Notifies livereload of changes detected
-// by `gulp.watch()`
-function notifyLivereload(event) {
-
-    // `gulp.watch()` events provide an absolute path
-    // so we need to make it relative to the server root
-    var fileName = require('path').relative(config.port, event.path);
-
-    lr.changed({
-        body: {
-            files: [fileName]
-        }
+    //Add watching on js-files
+    gulp.watch('js/*.js', function() {
+        gulp.watch('browserify');
     });
-}
 
-// Default task that will be run
-// when no parameter is provided
-// to gulp
+    //Add watching on html-files
+    gulp.watch('views/*.html', function () {
+        gulp.watch('html');
+    });
+});
+
 gulp.task('default', function () {
-
-    console.log('Gulp and running!')
-    startExpress();
-    startLivereload();
-    gulp.watch('*.ejs', notifyLivereload);
+    gulp.watch('build', 'serve', 'watch');
 });
