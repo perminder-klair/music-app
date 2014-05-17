@@ -31,25 +31,25 @@ module.exports = function (app) {
         });
 
         app.use(express.static(path.join(config.root, '.tmp')));
+
+        app.use(
+            sass.middleware({
+                src: config.root + '/app', //where the sass files are
+                //dest: config.root + '/app/css', //where css should go
+                debug: true,
+                outputStyle: 'compressed',
+                prefix:  '/css'
+            })
+        );
     }
 
     if ('production' === env) {
         app.use(compression());
-        //app.use(favicon(path.join(config.root, 'favicon.ico')));
+        app.use(favicon(path.join(config.root,'favicon.ico')));
     }
 
     app.use(express.static(path.join(config.root, 'app')));
     app.set('views', config.root + '/app/views');
-
-    app.use(
-        sass.middleware({
-            src: config.root + '/app', //where the sass files are
-            //dest: config.root + '/app/css', //where css should go
-            debug: true,
-            outputStyle: 'compressed',
-            prefix:  '/css'
-        })
-    );
 
     app.engine('html', require('ejs').renderFile);
     app.set('view engine', 'ejs');
