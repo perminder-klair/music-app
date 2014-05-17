@@ -16,3 +16,10 @@ Please update `apiToken` with your api token provided by iMp3Songs api.
 ## To run app, type in terminal:
 
     node server.js
+
+
+## Heroku
+
+### Set environment
+
+    heroku config:set RACK_ENV=production
