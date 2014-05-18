@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express'),
-    favicon = require('serve-favicon'),
+    //favicon = require('serve-favicon'),
     morgan = require('morgan'),
     compression = require('compression'),
     bodyParser = require('body-parser'),
@@ -45,7 +45,7 @@ module.exports = function (app) {
 
     if ('production' === env) {
         app.use(compression());
-        app.use(favicon(path.join(config.root,'favicon.ico')));
+        //app.use(favicon(path.join(config.root,'favicon.ico')));
     }
 
     app.use(express.static(path.join(config.root, 'app')));
