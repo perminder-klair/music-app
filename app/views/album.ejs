@@ -8,7 +8,7 @@
 
     <div class="list-group">
     <% album.songs.forEach( function( song ){ %>
-        <a href="<%= apiMusicUrl %><%= song.file_source %>/<%= song.file_name %>" class="list-group-item">
+        <a href="<%= apiMusicUrl %><%= song.file_source %>" class="list-group-item">
             <span class="badge"><span class="glyphicon glyphicon-cloud-download"></span></span>
             <h4 class="list-group-item-heading"><%= song.title %></h4>
             <p class="list-group-item-text"><%= song.artist_name %></p>
