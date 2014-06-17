@@ -28,7 +28,8 @@ exports.index = function (req, res) {
     var options = {
         url: config.apiUrl + 'albums',
         qs: {
-            'access-token': config.apiToken
+            'access-token': config.apiToken,
+            'expand': 'songs,artist,genre'
         }
     };
     //if genre is specified
