@@ -29,7 +29,7 @@ exports.index = function (req, res) {
         url: config.apiUrl + 'albums',
         qs: {
             'access-token': config.apiToken,
-            'expand': 'songs,artist,genre'
+            'expand': 'artist'
         }
     };
     //if genre is specified
@@ -67,7 +67,10 @@ exports.view = function (req, res) {
     console.log(req.params.id);
     var options = {
         url: config.apiUrl + 'albums/' + req.params.id,
-        qs: {'access-token': config.apiToken}
+        qs: {
+            'access-token': config.apiToken,
+            'expand': 'songs,genre,artist'
+        }
     };
     request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -76,7 +79,6 @@ exports.view = function (req, res) {
 
             res.render('album', {
                 title: album.title + ' by ' + album.artist.title + ' - ' + config.siteTitle,
-                apiMusicUrl: config.apiMusicUrl,
                 album: album
             });
         } else {

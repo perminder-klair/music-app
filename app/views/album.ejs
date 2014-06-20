@@ -7,13 +7,24 @@
     </div>
 
     <div class="list-group">
-    <% album.songs.forEach( function( song ){ %>
-        <a href="<%= apiMusicUrl %><%= song.file_source %>" class="list-group-item">
-            <span class="badge"><span class="glyphicon glyphicon-cloud-download"></span></span>
-            <h4 class="list-group-item-heading"><%= song.title %></h4>
-            <p class="list-group-item-text"><%= song.artist_name %></p>
-        </a>
-    <% }); %>
+        <% album.songs.forEach( function( song ) { %>
+
+            <div class="list-group-item">
+                <% for (var fileData in song.file_data) { %>
+                    <% if (typeof song[fileData] !== 'function') { %>
+                        <span class="badge"><a href="<%= song.file_data[fileData].link %>"><%= fileData %></a></span>
+                    <% } %>
+                <% } %>
+
+                <h4 class="list-group-item-heading"><%= song.title %></h4>
+                <p class="list-group-item-text">
+                    <% song.artist_id.forEach( function( artist ) { %>
+                        <%= artist.title %>
+                    <% }); %>
+                </p>
+            </div>
+
+        <% }); %>
     </div>
 
 </div>
