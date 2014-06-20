@@ -18,9 +18,11 @@
 
                 <h4 class="list-group-item-heading"><%= song.title %></h4>
                 <p class="list-group-item-text">
-                    <% song.artist_id.forEach( function( artist ) { %>
-                        <%= artist.title %>
-                    <% }); %>
+                    <% if (song.artist_id.length !== 0 && song.artist_id != '[]') { %>
+                        <% song.artist_id.forEach( function( artist ) { %>
+                            <%= artist.title %>
+                        <% }); %>
+                    <% } %>
                 </p>
             </div>
 
