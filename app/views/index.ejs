@@ -3,25 +3,25 @@
 <div class="container-fluid">
 
     <div class="page-header">
-        <h1>Genres</h1>
+        <h1>Latest Songs</h1>
     </div>
 
     <div class="list-group">
     <% genres.forEach( function( genre ){ %>
         <a href="/albums/<%= genre.id %>/<%= genre.slug %>" class="list-group-item">
-            <%= genre.title %>
+            <span class="glyphicon glyphicon-list"></span> <%= genre.title %> Latest
         </a>
     <% }); %>
     </div>
 
     <div class="page-header">
-        <h1>Latest Albums <small><a href="/albums">View All</a></small></h1>
+        <h1>All Latest Albums <small><a href="/albums">View All</a></small></h1>
     </div>
 
     <div class="list-group">
     <% albums.forEach( function( album ){ %>
         <a href="/album/<%= album.id %>/<%= album.artist.slug %>/<%= album.slug %>" class="list-group-item">
-            <%= album.title %> <small> - <%= album.artist_name %></small>
+            <span class="glyphicon glyphicon-hdd"></span> <%= album.title %> <small> - <%= album.artist_name %></small>
         </a>
     <% }); %>
     </div>

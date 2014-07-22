@@ -9,11 +9,11 @@
     <div class="list-group">
         <% album.songs.forEach( function( song ) { %>
 
-            <div class="list-group-item">
+            <div class="list-group-item" style="min-height: 55px;">
 
                 <div class="dropdown pull-right">
                   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                    Download
+                      <span class="glyphicon glyphicon-cloud-download"></span> Download
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -21,7 +21,7 @@
                         <% if (typeof song[fileData] !== 'function') { %>
                             <li role="presentation">
                                 <a role="menuitem" tabindex="-1" href="<%= song.file_data[fileData].link %>" target="_blank">
-                                    <span class="glyphicon glyphicon-cloud-download"></span> <%= fileData %> bit quality
+                                    <span class="glyphicon glyphicon-floppy-disk"></span> <%= fileData %> bit quality
                                 </a>
                             </li>
                             <li role="presentation" class="divider"></li>
@@ -30,7 +30,9 @@
                   </ul>
                 </div>
 
-                <h4 class="list-group-item-heading"><%= song.title %></h4>
+                <h4 class="list-group-item-heading">
+                    <span class="glyphicon glyphicon-play"></span> <%= song.title %>
+                </h4>
                 <p class="list-group-item-text">
                     <% if (song.artist_id.length !== 0 && song.artist_id != '[]') { %>
                         <% song.artist_id.forEach( function( artist ) { %>
@@ -51,7 +53,7 @@
 <div class="list-group">
     <% albums.forEach( function( album ){ %>
         <a href="/album/<%= album.id %>/<%= album.artist.slug %>/<%= album.slug %>" class="list-group-item">
-            <%= album.title %> <small> - <%= album.artist_name %></small>
+            <span class="glyphicon glyphicon-hdd"></span> <%= album.title %> <small> - <%= album.artist_name %></small>
         </a>
     <% }); %>
     </div>
