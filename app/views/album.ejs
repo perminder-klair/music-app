@@ -50,7 +50,7 @@
 
 <div class="list-group">
     <% albums.forEach( function( album ){ %>
-        <a href="/album/<%= album.id %>" class="list-group-item">
+        <a href="/album/<%= album.id %>/<%= album.artist.slug %>/<%= album.slug %>" class="list-group-item">
             <%= album.title %> <small> - <%= album.artist_name %></small>
         </a>
     <% }); %>

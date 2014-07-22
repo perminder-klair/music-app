@@ -8,7 +8,7 @@
 
     <div class="list-group">
         <% albums.forEach( function( album ){ %>
-        <a href="/album/<%= album.id %>" class="list-group-item">
+        <a href="/album/<%= album.id %>/<%= album.artist.slug %>/<%= album.slug %>" class="list-group-item">
             <span class="badge">Songs: <%= album.trackCount %></span>
             <h4 class="list-group-item-heading"><%= album.title %></h4>
             <p class="list-group-item-text"><%= album.artist.title %></p>

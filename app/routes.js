@@ -14,10 +14,10 @@ module.exports = function (app) {
     app.route('/albums')
         .get(albums.index);
 
-    app.route('/albums/:genreId')
+    app.route('/albums/:genreId/:genreSlug')
         .get(albums.index);
 
-    app.route('/album/:id')
+    app.route('/album/:id/:artistName/:albumName')
         .get(albums.view);
 
     // All undefined api routes should return a 404

@@ -57,7 +57,6 @@ exports.index = function (req, res) {
                 currentPage: response.headers['x-pagination-current-page'],
                 perPage: response.headers['x-pagination-per-page']
             };
-            //console.log(pagination);
             
             var albums = JSON.parse(body);
 
@@ -83,6 +82,28 @@ exports.index = function (req, res) {
 exports.view = function (req, res) {
     
     async.parallel([
+    function(next) {
+        //get requested single album
+        var options = {
+            url: config.apiUrl + 'albums/' + req.params.id,
+            qs: {
+                'access-token': config.apiToken,
+                'expand': 'songs,artist'
+            }
+        };
+        
+        request(options, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                //console.log(body);
+
+                next(null, body);
+            } else {
+                console.log("Error rendering requested page");
+                res.status(404);
+                res.send(404);
+            }
+        });
+    },
 	function(next) {
         //todo get random and from same genre of album
         //get latest albums
@@ -106,35 +127,13 @@ exports.view = function (req, res) {
                 res.send(404);
             }
         });
-    },
-    function(next) {
-        //get requested single album
-        var options = {
-            url: config.apiUrl + 'albums/' + req.params.id,
-            qs: {
-                'access-token': config.apiToken,
-                'expand': 'songs,artist'
-            }
-        };
-        
-        request(options, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                //console.log(body);
-
-                next(null, body);
-            } else {
-                console.log("Error rendering requested page");
-                res.status(404);
-                res.send(404);
-            }
-        });
     }], function(err, results) {
         // results is [firstData, secondData]
-        var album = JSON.parse(results[1]);
+        var album = JSON.parse(results[0]);
         
         res.render('album', {
             title: album.title + ' by ' + album.artist_name + ' - ' + config.siteTitle,
-            albums: JSON.parse(results[0]),
+            albums: JSON.parse(results[1]),
             album: album
         });
     }); 
