@@ -29,9 +29,16 @@ exports.index = function (req, res) {
         url: config.apiUrl + 'albums',
         qs: {
             'access-token': config.apiToken,
+            'limit': 15,
             'expand': 'artist'
         }
     };
+    
+    //pagination
+    if (typeof req.query.page !== 'undefined') {
+        options['qs']['page'] = req.query.page;
+    }
+    
     //if genre is specified
     if (typeof req.params.genreId !== 'undefined') {
         options['qs']['find'] = {
@@ -42,11 +49,21 @@ exports.index = function (req, res) {
     request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             //console.log(body);
+            
+            var pagination = {
+                totalCount: response.headers['x-pagination-total-count'],
+                pageCount: response.headers['x-pagination-page-count'],
+                currentPage: response.headers['x-pagination-current-page'],
+                perPage: response.headers['x-pagination-per-page']
+            };
+            //console.log(pagination);
+            
             var albums = JSON.parse(body);
 
             res.render('albums', {
                 title: 'Albums - ' + config.siteTitle,
-                albums: albums
+                albums: albums,
+                pagination: pagination
             });
         } else {
             console.log("Error rendering requested page");

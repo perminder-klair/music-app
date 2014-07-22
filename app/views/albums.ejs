@@ -16,6 +16,26 @@
         <% }); %>
     </div>
 
+    <% if (pagination.pageCount > 1) { %>
+
+        <ul class="pagination">
+            <% if (pagination.currentPage > 1) { %>
+                <li><a href="/albums/?page=<%= pagination.currentPage - 1 %>">&laquo;</a></li>
+            <% } %>
+            <% for (var i = 1; i<=pagination.pageCount; i++) { %>
+                <% if (pagination.currentPage == i) { %>
+                    <li class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
+                <% } else { %>
+                    <li><a href="/albums/?page=<%= i %>"><%= i %></a></li>
+                <% } %>
+            <% } %>
+            <% if (pagination.currentPage != pagination.pageCount) { %>
+                <li><a href="/albums/?page=<%= pagination.pageCount %>">&raquo;</a></li>
+            <% } %>
+        </ul>
+
+    <% } %>
+
 </div>
 
 <% include partials/footer %>
