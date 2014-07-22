@@ -20,14 +20,24 @@
 
         <ul class="pagination">
             <% if (pagination.currentPage > 1) { %>
-                <li><a href="/albums/?page=<%= pagination.currentPage - 1 %>">&laquo;</a></li>
+                <li><a href="/albums/?page=1">&laquo;</a></li>
             <% } %>
-            <% for (var i = 1; i<=pagination.pageCount; i++) { %>
+            <% var i = 1;
+            if (pagination.currentPage > 5) {
+                i = +pagination.currentPage - 4;
+            } %>
+            <% if (i !== 1) { %>
+                <li class="disabled"><a href="#">...</a></li>
+            <% } %>
+            <% for (i; i<=pagination.pageCount; i++) { %>
                 <% if (pagination.currentPage == i) { %>
                     <li class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
                 <% } else { %>
                     <li><a href="/albums/?page=<%= i %>"><%= i %></a></li>
                 <% } %>
+                <% if (i == (+pagination.currentPage + 4)) { %>
+                    <li class="disabled"><a href="#">...</a></li>
+                <% break; } %>
             <% } %>
             <% if (pagination.currentPage != pagination.pageCount) { %>
                 <li><a href="/albums/?page=<%= pagination.pageCount %>">&raquo;</a></li>
