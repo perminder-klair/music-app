@@ -20,7 +20,7 @@
                     <% for (var fileData in song.file_data) { %>
                         <% if (typeof song[fileData] !== 'function') { %>
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" href="<%= song.file_data[fileData].link %>" target="_blank">
+                                <a role="menuitem" tabindex="-1" href="<%= song.file_data[fileData].link %>?force_download">
                                     <span class="glyphicon glyphicon-floppy-disk"></span> <%= fileData %> bit quality
                                 </a>
                             </li>
