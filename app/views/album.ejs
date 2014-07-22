@@ -10,11 +10,25 @@
         <% album.songs.forEach( function( song ) { %>
 
             <div class="list-group-item">
-                <% for (var fileData in song.file_data) { %>
-                    <% if (typeof song[fileData] !== 'function') { %>
-                        <span class="badge"><a href="<%= song.file_data[fileData].link %>"><%= fileData %></a></span>
+
+                <div class="dropdown pull-right">
+                  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                    Download
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    <% for (var fileData in song.file_data) { %>
+                        <% if (typeof song[fileData] !== 'function') { %>
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="<%= song.file_data[fileData].link %>">
+                                    <span class="glyphicon glyphicon-cloud-download"></span> <%= fileData %> bit quality
+                                </a>
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                        <% } %>
                     <% } %>
-                <% } %>
+                  </ul>
+                </div>
 
                 <h4 class="list-group-item-heading"><%= song.title %></h4>
                 <p class="list-group-item-text">
@@ -24,9 +38,22 @@
                         <% }); %>
                     <% } %>
                 </p>
+
             </div>
 
         <% }); %>
+    </div>
+
+    <div class="page-header">
+        <h2>Related Albums</h2>
+    </div>
+
+<div class="list-group">
+    <% albums.forEach( function( album ){ %>
+        <a href="/album/<%= album.id %>" class="list-group-item">
+            <%= album.title %> <small> - <%= album.artist_name %></small>
+        </a>
+    <% }); %>
     </div>
 
 </div>

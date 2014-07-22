@@ -21,7 +21,7 @@
     <div class="list-group">
     <% albums.forEach( function( album ){ %>
         <a href="/album/<%= album.id %>" class="list-group-item">
-            <%= album.title %>
+            <%= album.title %> <small> - <%= album.artist_name %></small>
         </a>
     <% }); %>
     </div>

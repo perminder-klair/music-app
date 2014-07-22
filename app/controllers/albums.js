@@ -1,6 +1,7 @@
 'use strict';
 
 var path = require('path'),
+    async = require('async'),
     request = require('request'),
     config = require('../config/config');
 
@@ -80,29 +81,64 @@ exports.index = function (req, res) {
  * @param res
  */
 exports.view = function (req, res) {
+    
+    async.parallel([
+	function(next) {
+        //todo get random and from same genre of album
+        //get latest albums
+        var options = {
+            url: config.apiUrl + 'albums',
+            qs: {
+                'access-token': config.apiToken,
+                'limit': 5,
+                'expand': 'artist'
+            }
+        };
+        
+        request(options, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                //console.log(body);
 
-    console.log(req.params.id);
-    var options = {
-        url: config.apiUrl + 'albums/' + req.params.id,
-        qs: {
-            'access-token': config.apiToken,
-            'expand': 'songs,genre,artist'
-        }
-    };
-    request(options, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            //console.log(body);
-            var album = JSON.parse(body);
+                next(null, body);
+            } else {
+                console.log("Error rendering requested page");
+                res.status(404);
+                res.send(404);
+            }
+        });
+    },
+    function(next) {
+        //get requested single album
+        var options = {
+            url: config.apiUrl + 'albums/' + req.params.id,
+            qs: {
+                'access-token': config.apiToken,
+                'expand': 'songs,artist'
+            }
+        };
+        
+        request(options, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                //console.log(body);
 
-            res.render('album', {
-                title: album.title + ' by ' + album.artist.title + ' - ' + config.siteTitle,
-                album: album
-            });
-        } else {
-            console.log("Error rendering requested page");
-            res.status(404);
-            res.send(404);
-        }
-    });
+                next(null, body);
+            } else {
+                console.log("Error rendering requested page");
+                res.status(404);
+                res.send(404);
+            }
+        });
+    }], function(err, results) {
+        // results is [firstData, secondData]
+        var album = JSON.parse(results[1]);
+        
+        res.render('album', {
+            title: album.title + ' by ' + album.artist_name + ' - ' + config.siteTitle,
+            albums: JSON.parse(results[0]),
+            album: album
+        });
+    }); 
+
+    
 
 };
