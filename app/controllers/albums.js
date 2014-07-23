@@ -26,6 +26,8 @@ exports.partials = function (req, res) {
  * List all
  */
 exports.index = function (req, res) {
+    var isSingle = false;
+
     var options = {
         url: config.apiUrl + 'albums',
         qs: {
@@ -47,6 +49,13 @@ exports.index = function (req, res) {
         };
     }
 
+    //get singles
+    var stripped = req.url.split('?')[0];
+    if (stripped === '/singles') {
+        isSingle = true;
+        options['qs']['single'] = true;
+    }
+
     request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             //console.log(body);
@@ -63,7 +72,8 @@ exports.index = function (req, res) {
             res.render('albums', {
                 title: 'Albums - ' + config.siteTitle,
                 albums: albums,
-                pagination: pagination
+                pagination: pagination,
+                isSingle: isSingle
             });
         } else {
             console.log("Error rendering requested page");

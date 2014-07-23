@@ -3,7 +3,11 @@
 <div class="container-fluid">
 
     <div class="page-header">
-        <h1>All Albums</h1>
+        <% if (isSingle) { %>
+            <h1>All Singles</h1>
+        <% } else { %>
+            <h1>All Albums</h1>
+        <% } %>
     </div>
 
     <div class="list-group">
@@ -21,11 +25,11 @@
 
         <ul class="pagination">
             <% if (pagination.currentPage > 1) { %>
-                <li><a href="/albums/?page=1">&laquo;</a></li>
+                <li><a href="?page=1">&laquo;</a></li>
             <% } %>
             <% var i = 1;
-            if (pagination.currentPage > 5) {
-                i = +pagination.currentPage - 4;
+            if (pagination.currentPage > 3) {
+                i = +pagination.currentPage - 2;
             } %>
             <% if (i !== 1) { %>
                 <li class="disabled"><a href="#">...</a></li>
@@ -34,14 +38,14 @@
                 <% if (pagination.currentPage == i) { %>
                     <li class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
                 <% } else { %>
-                    <li><a href="/albums/?page=<%= i %>"><%= i %></a></li>
+                    <li><a href="?page=<%= i %>"><%= i %></a></li>
                 <% } %>
-                <% if (i == (+pagination.currentPage + 4)) { %>
+                <% if (i == (+pagination.currentPage + 2)) { %>
                     <li class="disabled"><a href="#">...</a></li>
                 <% break; } %>
             <% } %>
             <% if (pagination.currentPage != pagination.pageCount) { %>
-                <li><a href="/albums/?page=<%= pagination.pageCount %>">&raquo;</a></li>
+                <li><a href="?page=<%= pagination.pageCount %>">&raquo;</a></li>
             <% } %>
         </ul>
 

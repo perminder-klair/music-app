@@ -20,6 +20,9 @@ module.exports = function (app) {
     app.route('/album/:id/:artistName/:albumName')
         .get(albums.view);
 
+    app.route('/singles')
+        .get(albums.index);
+
     // All undefined api routes should return a 404
     app.route('/*')
         .get(function (req, res) {
