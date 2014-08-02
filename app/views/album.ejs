@@ -17,15 +17,13 @@
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                    <% for (var fileData in song.file_data) { %>
-                        <% if (typeof song[fileData] !== 'function') { %>
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" href="<%= song.file_data[fileData].link %>?force_download">
-                                    <span class="glyphicon glyphicon-floppy-disk"></span> <%= fileData %> bit quality
-                                </a>
-                            </li>
-                            <li role="presentation" class="divider"></li>
-                        <% } %>
+                    <% for (var fileData in song.files) { %>
+                      <li role="presentation">
+                          <a role="menuitem" tabindex="-1" href="<%= song.files[fileData].link %>?force_download">
+                              <span class="glyphicon glyphicon-floppy-disk"></span> <%= fileData %> bit quality
+                          </a>
+                      </li>
+                      <li role="presentation" class="divider"></li>
                     <% } %>
                   </ul>
                 </div>
@@ -34,11 +32,7 @@
                     <span class="glyphicon glyphicon-play"></span> <%= song.title %>
                 </h4>
                 <p class="list-group-item-text">
-                    <% if (song.artist_id.length !== 0 && song.artist_id != '[]') { %>
-                        <% song.artist_id.forEach( function( artist ) { %>
-                            <%= artist.title %>
-                        <% }); %>
-                    <% } %>
+                    <%= song.artist_name %>
                 </p>
 
             </div>
@@ -52,7 +46,7 @@
 
 <div class="list-group">
     <% albums.forEach( function( album ){ %>
-        <a href="/album/<%= album.id %>/<%= album.artist.slug %>/<%= album.slug %>" class="list-group-item">
+        <a href="/album/<%= album.key_id %>/<%= album.artist.slug %>/<%= album.slug %>" class="list-group-item">
             <span class="glyphicon glyphicon-hdd"></span> <%= album.title %> <small> - <%= album.artist_name %></small>
         </a>
     <% }); %>
