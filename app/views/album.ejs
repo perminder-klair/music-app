@@ -6,6 +6,12 @@
         <h1><%= album.title %> <small><%= album.artist.title %></small></h1>
     </div>
 
+    <% if (album.cover_image !== null) { %>
+    <div class="row" style="margin-bottom:15px;">
+        <img src="<%= album.cover_image %>" class="img-responsive img-thumbnail center-block">
+    </div>
+    <% } %>
+
     <div class="list-group">
         <% album.songs.forEach( function( song ) { %>
 
@@ -19,7 +25,7 @@
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                     <% for (var fileData in song.files) { %>
                       <li role="presentation">
-                          <a role="menuitem" tabindex="-1" href="<%= song.files[fileData].link %>?force_download">
+                          <a role="menuitem" tabindex="-1" href="<%= song.files[fileData].link %>" class="download-link" data-link="<%= song.files[fileData].link %>" data-key="<%= song.key_id %>">
                               <span class="glyphicon glyphicon-floppy-disk"></span> <%= fileData %> bit quality
                           </a>
                       </li>

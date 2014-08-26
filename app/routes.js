@@ -1,7 +1,8 @@
 'use strict';
 
 var index = require('./controllers/index'),
-    albums = require('./controllers/albums');
+    albums = require('./controllers/albums'),
+    songs = require('./controllers/songs');
 
 /**
  * Application routes
@@ -22,6 +23,9 @@ module.exports = function (app) {
 
     app.route('/singles')
         .get(albums.index);
+
+    app.route('/song/counter/:keyId')
+        .get(songs.counter);
 
     // All undefined api routes should return a 404
     app.route('/*')
