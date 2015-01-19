@@ -17,7 +17,7 @@
       path : "/opt/imp3songs",
       "post-deploy" : "pm2 startOrRestart ecosystem.json --env production",
       env  : {
-        NODE_ENV: "dev"
+        NODE_ENV: "production"
       }
     }
   }

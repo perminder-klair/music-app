@@ -23,3 +23,7 @@ Please update `apiToken` with your api token provided by iMp3Songs api.
 ### Set environment
 
     heroku config:set NODE_ENV=production
+    
+## PM2 deployment
+
+    pm2 deploy ecosystem.json production update
